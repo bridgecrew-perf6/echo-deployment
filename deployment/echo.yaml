@@ -1,35 +1,44 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: echoserver
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: echoserver
-  namespace: echo
+  namespace: echoserver
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
-        app: echoserver
+      app: echoserver
   template:
     metadata:
       labels:
         app: echoserver
     spec:
       containers:
-      - image: gcr.io/google_containers/echoserver:1.9
-        imagePullPolicy: Always
+      - image: ealen/echo-server:latest
+        imagePullPolicy: IfNotPresent
         name: echoserver
         ports:
-        - containerPort: 8080
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: echoserver
-  namespace: echo
+  namespace: echoserver
 spec:
   ports:
-  - port: 80
-    targetPort: 8080
-    protocol: TCP
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: ClusterIP
   selector:
     app: echoserver
 ---
@@ -37,16 +46,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: echoserver
-  namespace: echo
+  namespace: echoserver
+  annotations:
+    kubernetes.io/ingress.class: nginx
 spec:
-  # tls:
-  # - hosts:
-  #   - echo.burritops.com
-    # secretName: example-tls
-  ingressClassName: nginx
   rules:
-  - host: echo.burritops.com
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
