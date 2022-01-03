@@ -43,7 +43,7 @@ spec:
   # - hosts:
   #   - echo.burritops.com
     # secretName: example-tls
-  # ingressClassName: nginx
+  ingressClassName: nginx
   rules:
   - host: echo.burritops.com
     http:
