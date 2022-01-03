@@ -24,7 +24,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: echoserver
-  namespace: default
+  namespace: echo
 spec:
   ports:
   - port: 80
@@ -37,7 +37,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: echoserver
-  namespace: default
+  namespace: echo
 spec:
   # tls:
   # - hosts:
