@@ -51,8 +51,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-#  - host: echo.burritops.com
-  - host: echo.test.com
+  - host: echo.burritops.com
     http:
       paths:
       - path: /
